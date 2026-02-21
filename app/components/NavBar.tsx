@@ -4,43 +4,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "./CartProvider";
 
-const links = [
-  { label: "Home", href: "/" },
-  { label: "Menu", href: "/menu" },
-  { label: "Sugar", href: "/sugar" },
-  { label: "Bites", href: "/bites" },
-  { label: "Contact", href: "/contact" },
-  { label: "Cart", href: "/cart" },
-];
-
 export default function NavBar() {
   const pathname = usePathname();
-  const { totalItems } = useCart();
+  const { count } = useCart();
+
+  const linkClass = (href: string) =>
+    pathname === href ? "navLink navLinkActive" : "navLink";
 
   return (
     <header className="nav">
       <div className="navInner">
         <Link className="brand" href="/">
-          Sugar <span className="brandAmp">&</span> Bites
+          Sugar <span className="brandAmp">&amp;</span> Bites
         </Link>
 
-        <div className="navLinks" aria-label="Primary navigation">
-          {links.map((l) => {
-            const active = pathname === l.href;
-            const isCart = l.href === "/cart";
-            const label = isCart && totalItems > 0 ? `${l.label} (${totalItems})` : l.label;
-
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`navLink ${active ? "navLinkActive" : ""}`}
-              >
-                {label}
-              </Link>
-            );
-          })}
-        </div>
+        <nav className="navLinks" aria-label="Primary">
+          <Link className={linkClass("/")} href="/">Home</Link>
+          <Link className={linkClass("/menu")} href="/menu">Menu</Link>
+          <Link className={linkClass("/sugar")} href="/sugar">Sugar</Link>
+          <Link className={linkClass("/bites")} href="/bites">Bites</Link>
+          <Link className={linkClass("/about")} href="/about">About</Link>
+          <Link className={linkClass("/contact")} href="/contact">Contact</Link>
+          <Link className={linkClass("/cart")} href="/cart">
+            Cart <span className="cartBadge">{count}</span>
+          </Link>
+        </nav>
       </div>
     </header>
   );

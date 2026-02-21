@@ -15,13 +15,20 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
-      <body style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
+    <html
+      lang="en"
+      className={`${playfair.variable} ${inter.variable}`}
+    >
+      <body className="site-body">
         <CartProvider>
           <NavBar />
-          {children}
+          <main className="main-wrapper">{children}</main>
         </CartProvider>
       </body>
     </html>
